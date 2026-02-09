@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeatherStar with Jazz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        body {
+            width: 100vw;
+            height: 100vh;
+            background: black;
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        #audio-player {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- WeatherStar Display -->
+    <iframe 
+        src="https://weatherstar.netbymatt.com/?hazards-checkbox=true&current-weather-checkbox=true&latest-observations-checkbox=true&hourly-checkbox=false&hourly-graph-checkbox=false&travel-checkbox=false&regional-forecast-checkbox=false&local-forecast-checkbox=false&extended-forecast-checkbox=true&almanac-checkbox=false&spc-outlook-checkbox=false&radar-checkbox=false&settings-wide-checkbox=true&settings-kiosk-checkbox=true&settings-stickyKiosk-checkbox=true&settings-customFeedEnable-checkbox=false&settings-speed-select=1.00&settings-scanLineMode-select=auto&settings-units-select=us&txtLocation=53222%2C+Arlington+Gardens%2C+Milwaukee%2C+WI%2C+USA&settings-customFeed-string=&share-link-url=&settings-scanLines-checkbox=false&settings-mediaVolume-select=0.00&latLonQuery=53222%2C+Arlington+Gardens%2C+Milwaukee%2C+WI%2C+USA&latLon=%7B%22lat%22%3A43.0919%2C%22lon%22%3A-88.0108%7D"
+        allow="autoplay"
+        allowfullscreen>
+    </iframe>
+
+    <!-- Background Jazz Music -->
+    <audio id="audio-player" autoplay loop>
+        <source src="https://stream.zeno.fm/f3wvbbqmdg8uv" type="audio/mpeg">
+        <!-- Fallback jazz stream -->
+        <source src="https://stream.radioparadise.com/mellow-320" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // Ensure audio plays on load
+        window.addEventListener('load', function() {
+            const audio = document.getElementById('audio-player');
+            audio.volume = 0.4; // Set volume to 40%
+            
+            // Attempt to play (handles autoplay restrictions)
+            audio.play().catch(function(error) {
+                console.log('Autoplay prevented, user interaction required');
+                // On Fire TV, this usually isn't an issue with AbleSign
+            });
+        });
+
+        // Restart audio if it stops
+        document.getElementById('audio-player').addEventListener('ended', function() {
+            this.currentTime = 0;
+            this.play();
+        });
+    </script>
+</body>
+</html>
